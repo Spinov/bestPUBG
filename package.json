@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run watch",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "serve": "ng serve --aot",
+    "watch": "ng build --watch --aot",
+    "e2e": "ng e2e",
+    "showTest": "ng test --watch=false --code-coverage"
   },
   "private": true,
   "dependencies": {
