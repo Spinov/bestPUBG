@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import {StatComponent} from './stat.component';
 import {StatRoutingModule} from './stat-routing.module';
 import {CoreModule} from '../../core/core.module';
-import {FormsModule} from '@angular/forms';
+import {SharedModule} from '../../shared/shared.module';
 
 @NgModule({
   declarations: [StatComponent],
   imports: [
     CommonModule,
+    SharedModule,
     CoreModule,
-    FormsModule,
     StatRoutingModule
   ],
 })
