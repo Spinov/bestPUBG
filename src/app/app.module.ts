@@ -6,6 +6,7 @@ import {CoreModule} from './core/core.module';
 import {StatService} from './feature/stat/stat.service';
 import {FeatureModule} from './feature/feature.module';
 import {AppRoutingModule} from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {AppRoutingModule} from './app-routing.module';
     CoreModule,
     FeatureModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
   ],
   providers: [StatService],
   bootstrap: [AppComponent]
