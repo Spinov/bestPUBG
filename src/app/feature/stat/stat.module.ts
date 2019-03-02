@@ -4,6 +4,7 @@ import {StatComponent} from './stat.component';
 import {StatRoutingModule} from './stat-routing.module';
 import {CoreModule} from '../../core/core.module';
 import {SharedModule} from '../../shared/shared.module';
+import {CommonPubhModule} from "../common/common-pubh.module";
 
 @NgModule({
   declarations: [StatComponent],
@@ -11,7 +12,8 @@ import {SharedModule} from '../../shared/shared.module';
     CommonModule,
     SharedModule,
     CoreModule,
-    StatRoutingModule
+    StatRoutingModule,
+    CommonPubhModule
   ],
 })
 export class StatModule { }
