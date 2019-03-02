@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ReplaySubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatService {
+
+  // Кэшированные данные
+  private playerObs$ = new ReplaySubject(1);
+  private seasonObs$ = new ReplaySubject(1);
+  private seasonDataObs$ = new ReplaySubject(1);
 
   private bcUrl = 'https://api.pubg.com';
 
@@ -18,18 +24,46 @@ export class StatService {
   constructor(
     private http: HttpClient
   ) { }
+
 // Получение всех сезонов
-  getSeasons(): any {
-    return this.http.get(`${this.bcUrl}/shards/steam/seasons`, this.httpOptions);
+  getSeasons(forceRefresh?: boolean) {
+    if (!this.seasonObs$.observers.length || forceRefresh) {
+      this.http.get(`${this.bcUrl}/shards/steam/seasons`, this.httpOptions).subscribe(
+        data => this.seasonObs$.next(data),
+        error => {
+          this.seasonObs$.error(error);
+          this.seasonObs$ = new ReplaySubject(1);
+        }
+      );
+    }
+    return this.seasonObs$;
   }
+
 // Получение информации игрога. Его id, матчи
-   getPlayerByName(name): any {
-    return this.http.get(`${this.bcUrl}/shards/steam/players?filter[playerNames]=${name}`, this.httpOptions);
+  getPlayerByName(name, forceRefresh?: boolean) {
+    if (!this.playerObs$.observers.length || forceRefresh) {
+      this.http.get(`${this.bcUrl}/shards/steam/players?filter[playerNames]=${name}`, this.httpOptions).subscribe(
+        data => this.playerObs$.next(data),
+        error => {
+          this.playerObs$.error(error);
+          this.playerObs$ = new ReplaySubject(1);
+        }
+      );
+    }
+    return this.playerObs$;
   }
-// Получение полной статистики по сезону
-  getSeasonStat(account, season): any {
-    return this.http.get(`${this.bcUrl}/shards/steam/players/${account}/seasons/${season}`, this.httpOptions);
 
+  // Получение полной статистики по сезону
+  getSeasonStat(account, season, forceRefresh?: boolean) {
+    if (!this.seasonDataObs$.observers.length || forceRefresh) {
+      this.http.get(`${this.bcUrl}/shards/steam/players/${account}/seasons/${season}`, this.httpOptions).subscribe(
+        data => this.seasonDataObs$.next(data),
+        error => {
+          this.seasonDataObs$.error(error);
+          this.seasonDataObs$ = new ReplaySubject(1);
+        }
+      );
+    }
+    return this.seasonDataObs$;
   }
-
 }
