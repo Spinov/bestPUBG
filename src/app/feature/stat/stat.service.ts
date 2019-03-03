@@ -54,16 +54,7 @@ export class StatService {
   }
 
   // Получение полной статистики по сезону
-  getSeasonStat(account, season, forceRefresh?: boolean) {
-    if (!this.seasonDataObs$.observers.length || forceRefresh) {
-      this.http.get(`${this.bcUrl}/shards/steam/players/${account}/seasons/${season}`, this.httpOptions).subscribe(
-        data => this.seasonDataObs$.next(data),
-        error => {
-          this.seasonDataObs$.error(error);
-          this.seasonDataObs$ = new ReplaySubject(1);
-        }
-      );
+  getSeasonStat(account, season): any {
+     return this.http.get(`${this.bcUrl}/shards/steam/players/${account}/seasons/${season}`, this.httpOptions);
     }
-    return this.seasonDataObs$;
-  }
 }

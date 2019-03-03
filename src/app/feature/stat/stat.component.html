@@ -1,14 +1,17 @@
 <app-toolbar></app-toolbar>
 
-<table class="playerTab">
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Nick name" name='player' [(ngModel)]="player">
+  </mat-form-field>
+  <input type="button" value="Search" (click)="getPlayerByName(player)">
 
-  <tr>
-    <td>
-      <label>Введите имя2:</label>
-      <input [(ngModel)]="player" placeholder="player name">
-      <input type="button" value="Search" (click)="getPlayerByName(player)">
-    </td>
-  </tr>
+<mat-form-field>
+  <mat-select placeholder="Select a Season">
+    <mat-option *ngFor="let season of seasons" [value]="season.id" (click)="getSeasonStat(playerId, season.id)">
+      {{season.id}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
-
-</table>
+</form>

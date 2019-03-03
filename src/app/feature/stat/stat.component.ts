@@ -13,7 +13,6 @@ import {StatService} from './stat.service';
 // TODO steam API
 // TODO Overwolf  API
 // TODO посмотреть CDK https://github.com/martinsileno/pubg-typescript-api / https://www.npmjs.com/package/pubg-typescript-api
-// TODO material || bootstrap || another one
 
 
      ///////////////////////////////////////////////
@@ -26,6 +25,8 @@ import {StatService} from './stat.service';
 
 export class StatComponent implements OnInit {
   public player: '';
+  public playerId = localStorage.getItem('player_id');
+  public seasons = [];
 
   constructor(
     private statService: StatService
@@ -38,10 +39,11 @@ export class StatComponent implements OnInit {
 
   getPlayerByName(name) {
       this.statService.getPlayerByName(name).subscribe(
-        requestData => {
+        (requestData: any) => {
           console.log('getPlayerByName', requestData);
+          localStorage.setItem('player_id', requestData.data[0].id);
+          localStorage.setItem('player_name', requestData.data[0].attributes.name);
         },
-        // handle the error, otherwise will break the Observable
         error => console.log(error)
       );
       this.getSeasons();
@@ -49,10 +51,10 @@ export class StatComponent implements OnInit {
 
   getSeasons() {
       this.statService.getSeasons().subscribe(
-        requestData => {
+        (requestData: any) => {
+          this.seasons = requestData.data;
           console.log('getSeasons', requestData);
         },
-        // handle the error, otherwise will break the Observable
         error => console.log(error)
       );
     }
@@ -62,8 +64,11 @@ export class StatComponent implements OnInit {
         requestData => {
           console.log('getSeasonStat', requestData);
         },
-        // handle the error, otherwise will break the Observable
-        error => console.log(error)
+        error => {
+          if (error.status === '404') {
+            alert('You don\'t play in this season');
+          }
+        }
       );
     }
 }
