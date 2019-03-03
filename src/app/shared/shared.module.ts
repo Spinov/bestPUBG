@@ -19,7 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatSliderModule } from '@angular/material/';
+import {MatSliderModule, MatTableModule} from '@angular/material/';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 
@@ -46,6 +46,7 @@ import { MatNativeDateModule } from '@angular/material';
     MatSnackBarModule,
     MatSlideToggleModule,
     MatDividerModule,
+    MatTableModule
   ],
   declarations: [],
   exports: [
@@ -73,6 +74,7 @@ import { MatNativeDateModule } from '@angular/material';
     MatSliderModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTableModule
   ]
 })
 export class SharedModule {}
