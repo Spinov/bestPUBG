@@ -1,48 +1,122 @@
 import { Component, OnInit } from '@angular/core';
 import {StatService} from './stat.service';
+import {MatTableDataSource} from '@angular/material';
 
 export interface StatInterface {
-  assists: number;
-  bestRankPoint: number;
-  boosts: number;
-  dBNOs: number;
-  dailyKills: number;
-  dailyWins: number;
-  damageDealt: number;
-  days: number;
-  headshotKills: number;
-  heals: number;
-  killPoints: number;
-  kills: number;
-  longestKill: number;
-  longestTimeSurvived: number;
-  losses: number;
-  maxKillStreaks: number;
-  mostSurvivalTime: number;
-  rankPoints: number;
-  rankPointsTitle: string;
-  revives: number;
-  rideDistance: number;
-  roadKills: number;
-  roundMostKills: number;
-  roundsPlayed: number;
-  suicides: number;
-  swimDistance: number;
-  teamKills: number;
-  timeSurvived: number;
-  top10s: number;
-  vehicleDestroys: number;
-  walkDistance: number;
-  weaponsAcquired: number;
-  weeklyKills: number;
-  weeklyWins: number;
-  winPoints: number;
-  wins: number;
+  solo: {
+    assists: number;
+    bestRankPoint: number;
+    boosts: number;
+    dBNOs: number;
+    dailyKills: number;
+    dailyWins: number;
+    damageDealt: number;
+    days: number;
+    headshotKills: number;
+    heals: number;
+    killPoints: number;
+    kills: number;
+    longestKill: number;
+    longestTimeSurvived: number;
+    losses: number;
+    maxKillStreaks: number;
+    mostSurvivalTime: number;
+    rankPoints: number;
+    rankPointsTitle: string;
+    revives: number;
+    rideDistance: number;
+    roadKills: number;
+    roundMostKills: number;
+    roundsPlayed: number;
+    suicides: number;
+    swimDistance: number;
+    teamKills: number;
+    timeSurvived: number;
+    top10s: number;
+    vehicleDestroys: number;
+    walkDistance: number;
+    weaponsAcquired: number;
+    weeklyKills: number;
+    weeklyWins: number;
+    winPoints: number;
+    wins: number;
+  }; duo: {
+    assists: number;
+    bestRankPoint: number;
+    boosts: number;
+    dBNOs: number;
+    dailyKills: number;
+    dailyWins: number;
+    damageDealt: number;
+    days: number;
+    headshotKills: number;
+    heals: number;
+    killPoints: number;
+    kills: number;
+    longestKill: number;
+    longestTimeSurvived: number;
+    losses: number;
+    maxKillStreaks: number;
+    mostSurvivalTime: number;
+    rankPoints: number;
+    rankPointsTitle: string;
+    revives: number;
+    rideDistance: number;
+    roadKills: number;
+    roundMostKills: number;
+    roundsPlayed: number;
+    suicides: number;
+    swimDistance: number;
+    teamKills: number;
+    timeSurvived: number;
+    top10s: number;
+    vehicleDestroys: number;
+    walkDistance: number;
+    weaponsAcquired: number;
+    weeklyKills: number;
+    weeklyWins: number;
+    winPoints: number;
+    wins: number;
+  }; squad: {
+    assists: number;
+    bestRankPoint: number;
+    boosts: number;
+    dBNOs: number;
+    dailyKills: number;
+    dailyWins: number;
+    damageDealt: number;
+    days: number;
+    headshotKills: number;
+    heals: number;
+    killPoints: number;
+    kills: number;
+    longestKill: number;
+    longestTimeSurvived: number;
+    losses: number;
+    maxKillStreaks: number;
+    mostSurvivalTime: number;
+    rankPoints: number;
+    rankPointsTitle: string;
+    revives: number;
+    rideDistance: number;
+    roadKills: number;
+    roundMostKills: number;
+    roundsPlayed: number;
+    suicides: number;
+    swimDistance: number;
+    teamKills: number;
+    timeSurvived: number;
+    top10s: number;
+    vehicleDestroys: number;
+    walkDistance: number;
+    weaponsAcquired: number;
+    weeklyKills: number;
+    weeklyWins: number;
+    winPoints: number;
+    wins: number;
+  };
 }
-
-const ELEMENT_DATA: StatInterface[] = [
-  {
-    assists: 0,
+/*    assists: 0,
     bestRankPoint: 0.0,
     boosts: 0,
     dBNOs: 0,
@@ -77,10 +151,7 @@ const ELEMENT_DATA: StatInterface[] = [
     weeklyKills: 0,
     weeklyWins: 0,
     winPoints: 0,
-    wins: 0
-  },
-
-];
+    wins: 0*/
 
 @Component({
   selector: 'app-stat',
@@ -116,8 +187,8 @@ export class StatComponent implements OnInit {
   public seasons = [];
   public display = false;
 
-  displayedColumns: string[] = ['solo', 'duo', 'squad', 'solo-fpp', 'duo-fpp', 'squad-fpp'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['solo', 'duo', 'squad'];
+  dataSource = new MatTableDataSource<StatInterface>();
 
   constructor(
     private statService: StatService
@@ -154,6 +225,8 @@ export class StatComponent implements OnInit {
       this.statService.getSeasonStat(account, season).subscribe(
         (requestData: any) => {
           console.log('getSeasonStat', requestData);
+          this.dataSource = requestData.data.attributes.gameModeStats;
+          console.log('aaaaaaaa', this.dataSource);
         },
         error => {
           if (error.status === '404') {

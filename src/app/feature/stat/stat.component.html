@@ -19,34 +19,20 @@
 <ng-container *ngIf="display">
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
+
   <ng-container matColumnDef="solo">
     <th mat-header-cell *matHeaderCellDef> Solo </th>
-    <td mat-cell *matCellDef="let stats"> {{stats.assists}} </td>
+    <td mat-cell *matCellDef="let stats"> {{stats.solo}} </td>
   </ng-container>
 
   <ng-container matColumnDef="duo">
     <th mat-header-cell *matHeaderCellDef> Duo </th>
-    <td mat-cell *matCellDef="let stats"> {{stats.bestRankPoint}} </td>
+    <td mat-cell *matCellDef="let stats"> {{stats.duo}} </td>
   </ng-container>
 
   <ng-container matColumnDef="squad">
     <th mat-header-cell *matHeaderCellDef> Squad </th>
-    <td mat-cell *matCellDef="let stats"> {{stats.boosts}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="solo-fpp">
-    <th mat-header-cell *matHeaderCellDef> solo-fpp </th>
-    <td mat-cell *matCellDef="let stats"> {{stats.dBNOs}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="duo-fpp">
-    <th mat-header-cell *matHeaderCellDef> duo-fpp </th>
-    <td mat-cell *matCellDef="let stats"> {{stats.dailyKills}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="squad-fpp">
-    <th mat-header-cell *matHeaderCellDef> squad-fpp </th>
-    <td mat-cell *matCellDef="let stats"> {{stats.dailyWins}} </td>
+    <td mat-cell *matCellDef="let stats"> {{stats.squad}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
