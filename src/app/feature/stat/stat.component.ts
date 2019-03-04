@@ -3,7 +3,6 @@ import {StatService} from './stat.service';
 import {MatTableDataSource} from '@angular/material';
 
 export interface StatInterface {
-  solo: {
     assists: number;
     bestRankPoint: number;
     boosts: number;
@@ -40,81 +39,6 @@ export interface StatInterface {
     weeklyWins: number;
     winPoints: number;
     wins: number;
-  }; duo: {
-    assists: number;
-    bestRankPoint: number;
-    boosts: number;
-    dBNOs: number;
-    dailyKills: number;
-    dailyWins: number;
-    damageDealt: number;
-    days: number;
-    headshotKills: number;
-    heals: number;
-    killPoints: number;
-    kills: number;
-    longestKill: number;
-    longestTimeSurvived: number;
-    losses: number;
-    maxKillStreaks: number;
-    mostSurvivalTime: number;
-    rankPoints: number;
-    rankPointsTitle: string;
-    revives: number;
-    rideDistance: number;
-    roadKills: number;
-    roundMostKills: number;
-    roundsPlayed: number;
-    suicides: number;
-    swimDistance: number;
-    teamKills: number;
-    timeSurvived: number;
-    top10s: number;
-    vehicleDestroys: number;
-    walkDistance: number;
-    weaponsAcquired: number;
-    weeklyKills: number;
-    weeklyWins: number;
-    winPoints: number;
-    wins: number;
-  }; squad: {
-    assists: number;
-    bestRankPoint: number;
-    boosts: number;
-    dBNOs: number;
-    dailyKills: number;
-    dailyWins: number;
-    damageDealt: number;
-    days: number;
-    headshotKills: number;
-    heals: number;
-    killPoints: number;
-    kills: number;
-    longestKill: number;
-    longestTimeSurvived: number;
-    losses: number;
-    maxKillStreaks: number;
-    mostSurvivalTime: number;
-    rankPoints: number;
-    rankPointsTitle: string;
-    revives: number;
-    rideDistance: number;
-    roadKills: number;
-    roundMostKills: number;
-    roundsPlayed: number;
-    suicides: number;
-    swimDistance: number;
-    teamKills: number;
-    timeSurvived: number;
-    top10s: number;
-    vehicleDestroys: number;
-    walkDistance: number;
-    weaponsAcquired: number;
-    weeklyKills: number;
-    weeklyWins: number;
-    winPoints: number;
-    wins: number;
-  };
 }
 /*    assists: 0,
     bestRankPoint: 0.0,
@@ -186,17 +110,14 @@ export class StatComponent implements OnInit {
   public playerId = localStorage.getItem('player_id');
   public seasons = [];
   public display = false;
-
-  displayedColumns: string[] = ['solo', 'duo', 'squad'];
-  dataSource = new MatTableDataSource<StatInterface>();
+  public statName = [];
+  public statSolo = [];
 
   constructor(
     private statService: StatService
   ) { }
 
   ngOnInit() {
-  // test getSeasonStat
-    // this.getSeasonStat('account.9dcf0e42b3dd4f1e89a0735750b04083', 'division.bro.official.pc-2018-02');
   }
 
   getPlayerByName(name) {
@@ -225,8 +146,11 @@ export class StatComponent implements OnInit {
       this.statService.getSeasonStat(account, season).subscribe(
         (requestData: any) => {
           console.log('getSeasonStat', requestData);
-          this.dataSource = requestData.data.attributes.gameModeStats;
-          console.log('aaaaaaaa', this.dataSource);
+          const DATA_SOLO = requestData.data.attributes.gameModeStats.solo;
+          for (const [key, value] of Object.entries(DATA_SOLO)) {
+            this.statName.push(key);
+            this.statSolo.push(value);
+          }
         },
         error => {
           if (error.status === '404') {
