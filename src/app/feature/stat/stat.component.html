@@ -21,7 +21,9 @@
 <table>
   <tr>
     <th>Stats</th>
-    <th>Solo</th>
+    <div *ngFor="let data of statModeName" >
+    <th>{{data}}</th>
+    </div>
   </tr>
   <tr>
     <td>
@@ -36,6 +38,11 @@
     </td>
     <td>
         <div *ngFor="let data of statDuo" >
+          {{data}}
+        </div>
+    </td>
+    <td>
+        <div *ngFor="let data of statSquad" >
           {{data}}
         </div>
     </td>

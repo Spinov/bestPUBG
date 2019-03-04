@@ -110,8 +110,12 @@ export class StatComponent implements OnInit {
   public playerId = localStorage.getItem('player_id');
   public seasons = [];
   public display = false;
+  public statModeName = [];
+  public statModeValue = [];
   public statName = [];
   public statSolo = [];
+  public statDuo = [];
+  public statSquad = [];
 
   constructor(
     private statService: StatService
@@ -146,10 +150,25 @@ export class StatComponent implements OnInit {
       this.statService.getSeasonStat(account, season).subscribe(
         (requestData: any) => {
           console.log('getSeasonStat', requestData);
-          const DATA_SOLO = requestData.data.attributes.gameModeStats.solo;
-          for (const [key, value] of Object.entries(DATA_SOLO)) {
-            this.statName.push(key);
-            this.statSolo.push(value);
+          const DATA_ALL = requestData.data.attributes.gameModeStats;
+          for (const [key, value] of Object.entries(DATA_ALL)) {
+            this.statModeName.push(key);
+            this.statModeValue.push(value);
+          }
+          for (const [a, b] of Object.entries(this.statModeValue[0])) {
+            console.log('duo', a);
+            console.log(b);
+
+          }
+          for (const [a, b] of Object.entries(this.statModeValue[1])) {
+            console.log('solo', a);
+            console.log(b);
+
+          }
+          for (const [a, b] of Object.entries(this.statModeValue[2])) {
+            console.log('squad', a);
+            console.log(b);
+
           }
         },
         error => {
