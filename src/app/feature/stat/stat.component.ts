@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {StatService} from './stat.service';
-import {MatTableDataSource} from '@angular/material';
 
 export interface StatInterface {
     assists: number;
@@ -116,6 +115,9 @@ export class StatComponent implements OnInit {
   public statSolo = [];
   public statDuo = [];
   public statSquad = [];
+  public statSoloFpp = [];
+  public statDuoFpp = [];
+  public statSquadFpp = [];
 
   constructor(
     private statService: StatService
@@ -155,20 +157,30 @@ export class StatComponent implements OnInit {
             this.statModeName.push(key);
             this.statModeValue.push(value);
           }
-          for (const [a, b] of Object.entries(this.statModeValue[0])) {
-            console.log('duo', a);
-            console.log(b);
-
+          // duo
+          for (const [key, value] of Object.entries(this.statModeValue[0])) {
+            this.statName.push(key);
+            this.statDuo.push(value);
           }
-          for (const [a, b] of Object.entries(this.statModeValue[1])) {
-            console.log('solo', a);
-            console.log(b);
-
+          // duo fpp
+          for (const [key, value] of Object.entries(this.statModeValue[1])) {
+            this.statDuoFpp.push(value);
           }
-          for (const [a, b] of Object.entries(this.statModeValue[2])) {
-            console.log('squad', a);
-            console.log(b);
-
+          // solo
+          for (const [key, value] of Object.entries(this.statModeValue[2])) {
+            this.statSolo.push(value);
+          }
+          // solo fpp
+          for (const [key, value] of Object.entries(this.statModeValue[3])) {
+            this.statSoloFpp.push(value);
+          }
+          // squad
+          for (const [key, value] of Object.entries(this.statModeValue[4])) {
+            this.statSquad.push(value);
+          }
+          // squad-fpp
+          for (const [key, value] of Object.entries(this.statModeValue[5])) {
+            this.statSquadFpp.push(value);
           }
         },
         error => {

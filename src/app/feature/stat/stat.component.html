@@ -21,9 +21,12 @@
 <table>
   <tr>
     <th>Stats</th>
-    <div *ngFor="let data of statModeName" >
-    <th>{{data}}</th>
-    </div>
+    <th>Solo</th>
+    <th>Duo</th>
+    <th>Squad</th>
+    <th>Solo-fpp</th>
+    <th>Duo-fpp</th>
+    <th>Squad-fpp</th>
   </tr>
   <tr>
     <td>
@@ -43,6 +46,21 @@
     </td>
     <td>
         <div *ngFor="let data of statSquad" >
+          {{data}}
+        </div>
+    </td>
+    <td>
+        <div *ngFor="let data of statSoloFpp" >
+          {{data}}
+        </div>
+    </td>
+    <td>
+        <div *ngFor="let data of statDuoFpp" >
+          {{data}}
+        </div>
+    </td>
+    <td>
+        <div *ngFor="let data of statSquadFpp" >
           {{data}}
         </div>
     </td>
