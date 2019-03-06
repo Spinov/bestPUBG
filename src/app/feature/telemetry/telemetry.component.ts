@@ -15,6 +15,7 @@ export class TelemetryComponent implements OnInit {
   private lastMatch;
   private match;
   private telemetry;
+  private participant;
   private playerPositions;
 
   constructor() { }
@@ -49,18 +50,19 @@ export class TelemetryComponent implements OnInit {
   }
 
   async getMatchInfo(name) {
-    const participant = this.match.getParticipantByName(name);
-    if (!participant) {
+    this.participant = this.match.getParticipantByName(name);
+    if (!this.participant) {
       console.error('Player not found in participants');
       return;
     }
-    console.warn(`${participant.name} placed #${participant.winPlace} out of ${this.match.participants.length} on ${this.match.map}`);
+    console.warn(`${this.participant.name} placed #${this.participant.winPlace} out of ${this.match.participants.length}
+     on ${this.match.map}`);
     console.log('his stats: ');
-    console.log(`kills ${participant.kills}`);
-    console.log(`damage ${participant.damageDealt}`);
-    console.log(`assists ${participant.assists}`);
-    console.log(`headshot kills ${participant.headshotKills}`);
-    console.log(`total distance ${participant.totalDistance}m`);
+    console.log(`kills ${this.participant.kills}`);
+    console.log(`damage ${this.participant.damageDealt}`);
+    console.log(`assists ${this.participant.assists}`);
+    console.log(`headshot kills ${this.participant.headshotKills}`);
+    console.log(`total distance ${this.participant.totalDistance}m`);
   }
 
   async getSeasonList() {
