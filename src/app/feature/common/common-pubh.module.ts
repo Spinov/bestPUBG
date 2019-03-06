@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import {MatIconModule, MatToolbarModule} from "@angular/material";
+import {MatIconModule, MatToolbarModule} from '@angular/material';
 
 @NgModule({
   imports: [

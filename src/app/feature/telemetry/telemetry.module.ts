@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {StatComponent} from './stat.component';
-import {StatRoutingModule} from './stat-routing.module';
+import {TelemetryComponent} from './telemetry.component';
 import {CoreModule} from '../../core/core.module';
 import {SharedModule} from '../../shared/shared.module';
 import {CommonPubhModule} from '../common/common-pubh.module';
+import {TelemetryRoutingModule} from './telemetry-routing.module';
 
 @NgModule({
-  declarations: [StatComponent],
+  declarations: [TelemetryComponent],
   imports: [
     CommonModule,
     SharedModule,
     CoreModule,
-    StatRoutingModule,
+    TelemetryRoutingModule,
     CommonPubhModule
   ],
+  exports: []
 })
-export class StatModule { }
+export class TelemetryModule { }
