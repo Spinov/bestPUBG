@@ -17,12 +17,13 @@ export class TelemetryComponent implements OnInit {
 
   @ViewChild('gameMap') gameMap;
 
-  private player;
+  private player; // Player ID, name matches
   private lastMatch;
   private match;
   private telemetry;
-  private playerPositions;
+  private playerPositions; // Координаты игрока за матч
   private loc;
+  private dropsLocation; // Координаты аир дропов за матч
 
   constructor() { }
 
@@ -102,6 +103,9 @@ export class TelemetryComponent implements OnInit {
     this.telemetry.carePackageLandEvents.forEach(e => {
       const itemsString = e.itemPackage.items.map(item => item.itemId).join(', ');
       console.log(`[${e.dateTime.toLocaleDateString()} ${e.dateTime.toLocaleTimeString()} carePackage land] with ${itemsString}`);
+
+      this.dropsLocation = e.itemPackage.location;
+      console.log(`coords x: ${this.dropsLocation.x}, y: ${this.dropsLocation.y}, z: ${this.dropsLocation.y}`);
     });
   }
 
@@ -124,19 +128,28 @@ export class TelemetryComponent implements OnInit {
     const img = new Image();
     const deathImg = new Image();
     const jump = new Image();
+    const CarePackage = new Image();
+
     img.onload = () => {
       canvas.width = img.width / 5;
       canvas.height = img.height / 5;
-      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      context.drawImage(img, 0, 0, canvas.width, canvas.height); // Карта
       const x = ( 426238.343755 / 100 ) / 5;
       const y = ( 566754.4375 / 100) / 5;
-      // context.fillRect(x, y, 10, 10);
-      context.drawImage(jump, x, y, 41, 26);
-      context.drawImage(deathImg, (this.loc.x / 100) / 5, (this.loc.y / 100) / 5, 41, 26);
+      // context.fillRect(x, y, 10, 10); // Квадрат
+      context.drawImage(jump, x, y, 41, 26); // Приземление
+      context.drawImage(deathImg, (this.loc.x / 100) / 5, (this.loc.y / 100) / 5, 41, 26); // Смерть
+
+      this.telemetry.carePackageLandEvents.forEach(e => {
+        this.dropsLocation = e.itemPackage.location;
+        context.drawImage(CarePackage, (this.dropsLocation.x / 100) / 5,  // Аир дропы за игру
+          (this.dropsLocation.y / 100) / 5, 36, 30);
+      });
     };
 
     img.src = '../../../assets/maps/' + this.match.map + '_High_Res.jpg';
     deathImg.src = '../../../assets/Killfeed/Death.png';
     jump.src = '../../../assets/Killfeed/jump.png';
+    CarePackage.src = '../../../assets/Killfeed/CarePackage.png';
   }
 }
