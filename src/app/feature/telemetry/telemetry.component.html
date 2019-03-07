@@ -1,2 +1,11 @@
 <app-toolbar></app-toolbar>
-<canvas #gameMap width="8192" height="8192" style="border: 1px solid red;"></canvas>
+<div class="wrapper">
+  <div class="map">
+    <canvas #gameMap style="border: 1px solid red;"></canvas>
+  </div>
+  <div class="legend">
+    <h1>Legend</h1>
+    <img src="../../../assets/Killfeed/Death.png" width="41" height="26"> Death <br>
+    <img src="../../../assets/Killfeed/jump.png" width="41" height="26"> Jump
+  </div>
+</div>

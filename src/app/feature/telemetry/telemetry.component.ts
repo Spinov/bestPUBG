@@ -119,17 +119,24 @@ export class TelemetryComponent implements OnInit {
   preview(): void {
     const canvas = this.gameMap.nativeElement;
     const context = canvas.getContext('2d');
-    context.clearRect(0, 0, 8160, 8160);
+    // context.clearRect(0, 0, 8160 / 5, 8160 / 5); затирает содержимое окна
 
     const img = new Image();
+    const deathImg = new Image();
+    const jump = new Image();
     img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      context.drawImage(img, 0, 0);
-      const x = ( 432577.4375 / 100 ) ;
-      const y = ( 633950.125 / 100) ;
-      context.fillRect(x, y, 30, 30);
+      canvas.width = img.width / 5;
+      canvas.height = img.height / 5;
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const x = ( 426238.343755 / 100 ) / 5;
+      const y = ( 566754.4375 / 100) / 5;
+      // context.fillRect(x, y, 10, 10);
+      context.drawImage(jump, x, y, 41, 26);
+      context.drawImage(deathImg, (this.loc.x / 100) / 5, (this.loc.y / 100) / 5, 41, 26);
     };
-    img.src = '../../../assets/maps/Erangel_Main_High_Res.jpg';
+
+    img.src = '../../../assets/maps/' + this.match.map + '_High_Res.jpg';
+    deathImg.src = '../../../assets/Killfeed/Death.png';
+    jump.src = '../../../assets/Killfeed/jump.png';
   }
 }
