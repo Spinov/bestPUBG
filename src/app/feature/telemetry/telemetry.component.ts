@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Match, PlatformRegion, Player, PlayerSeason, PubgAPI, Season} from 'pubg-typescript-api';
 
-const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2ZmIxNmYyMC0yMTU1LTAxMzctNWUwNi00OTE2ZGJjNGIyNjgiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTUxNzc3NDU0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InBsYXllcnMtdW5rbm93In0.M7vnebptnsioCCzUEoxF7kOsDR1KMBPLigCFnKsRxes';
+const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.' +
+  'eyJqdGkiOiI2ZmIxNmYyMC0yMTU1LTAxMzctNWUwNi00OTE2ZGJjNGIyNjgiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0Ijo' +
+  'xNTUxNzc3NDU0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InBsYXllcnMtdW5rbm93In0.M7vnebpt' +
+  'nsioCCzUEoxF7kOsDR1KMBPLigCFnKsRxes';
+
 const api = new PubgAPI(API_KEY, PlatformRegion.PC_EU);
 
 @Component({
@@ -11,12 +15,14 @@ const api = new PubgAPI(API_KEY, PlatformRegion.PC_EU);
 })
 export class TelemetryComponent implements OnInit {
 
+  @ViewChild('gameMap') gameMap;
+
   private player;
   private lastMatch;
   private match;
   private telemetry;
-  private participant;
   private playerPositions;
+  private loc;
 
   constructor() { }
 
@@ -45,24 +51,23 @@ export class TelemetryComponent implements OnInit {
     this.lastMatch = await Match.get(api, lastMatchId);
     console.log(`Last played match on ${this.lastMatch.dateCreated} and lasted
      ${Math.round(this.lastMatch.duration / 60)} minutes, with ID: ${this.lastMatch.id}`);
-    // this.getMatchInfo('Spinov');
+    this.getMatchInfo('Spinov');
     this.getTelemetry();
   }
 
   async getMatchInfo(name) {
-    this.participant = this.match.getParticipantByName(name);
-    if (!this.participant) {
+    const participant = this.match.getParticipantByName(name);
+    if (!participant) {
       console.error('Player not found in participants');
       return;
     }
-    console.warn(`${this.participant.name} placed #${this.participant.winPlace} out of ${this.match.participants.length}
-     on ${this.match.map}`);
+    console.warn(`${participant.name} placed #${participant.winPlace} out of ${this.match.participants.length} on ${this.match.map}`);
     console.log('his stats: ');
-    console.log(`kills ${this.participant.kills}`);
-    console.log(`damage ${this.participant.damageDealt}`);
-    console.log(`assists ${this.participant.assists}`);
-    console.log(`headshot kills ${this.participant.headshotKills}`);
-    console.log(`total distance ${this.participant.totalDistance}m`);
+    console.log(`kills ${participant.kills}`);
+    console.log(`damage ${participant.damageDealt}`);
+    console.log(`assists ${participant.assists}`);
+    console.log(`headshot kills ${participant.headshotKills}`);
+    console.log(`total distance ${participant.totalDistance}m`);
   }
 
   async getSeasonList() {
@@ -83,6 +88,7 @@ export class TelemetryComponent implements OnInit {
 
   async getTelemetry() {
     this.telemetry = await this.match.getTelemetry(api);
+    this.getPlayerPosition('Spinov');
   }
 
   getListOfKillsInMatch() {
@@ -102,9 +108,28 @@ export class TelemetryComponent implements OnInit {
   getPlayerPosition(name) {
     this.playerPositions = this.telemetry.playerPositionEvents.filter(e => e.character.name === name);
     this.playerPositions.forEach(e => {
-      const loc = e.character.location;
-      console.log(`[${e.dateTime.toLocaleDateString()} ${e.dateTime.toLocaleTimeString()} position] (${loc.x}, ${loc.y}, ${loc.z})`);
+      this.loc = e.character.location;
+      console.log(`[${e.dateTime.toLocaleDateString()} ${e.dateTime.toLocaleTimeString()} position]
+       (${this.loc.x}, ${this.loc.y}, ${this.loc.z})`);
     });
+    this.preview();
   }
 
+
+  preview(): void {
+    const canvas = this.gameMap.nativeElement;
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, 8160, 8160);
+
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      context.drawImage(img, 0, 0);
+      const x = ( 432577.4375 / 100 ) ;
+      const y = ( 633950.125 / 100) ;
+      context.fillRect(x, y, 30, 30);
+    };
+    img.src = '../../../assets/maps/Erangel_Main_High_Res.jpg';
+  }
 }
